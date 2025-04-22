@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3FACA0BB-D3A2-49FA-A0AE-46D256395E24}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CAMTEX.Entidades</RootNamespace>
+    <AssemblyName>MVCEntities</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Primitives, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.Serialization.Primitives.4.3.0\lib\net46\System.Runtime.Serialization.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\ELogWeb.cs" />
+    <Compile Include="Base\EntidadBase.cs" />
+    <Compile Include="Base\EntidadEstado.cs" />
+    <Compile Include="Base\ENTipo.cs" />
+    <Compile Include="Base\EnumProceso.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="Costura\ENAreaResponsable.cs" />
+    <Compile Include="Costura\ENCapacidad.cs" />
+    <Compile Include="Costura\ENColaDespacho.cs" />
+    <Compile Include="Costura\ENDefecto.cs" />
+    <Compile Include="Costura\ENDefectoResponsable.cs" />
+    <Compile Include="Costura\ENDestino.cs" />
+    <Compile Include="Costura\ENEficiencia.cs" />
+    <Compile Include="Costura\ENEficiencia_Ticket.cs" />
+    <Compile Include="Costura\ENItemSAP.cs" />
+    <Compile Include="Costura\ENEmpresa.cs" />
+    <Compile Include="Costura\ENLinea.cs" />
+    <Compile Include="Costura\ENMaquina.cs" />
+    <Compile Include="Costura\ENMotivo.cs" />
+    <Compile Include="Costura\ENParada.cs" />
+    <Compile Include="Costura\ENOrdenProduccion.cs" />
+    <Compile Include="Costura\ENProduccionCostura.cs" />
+    <Compile Include="Costura\ENProgramacion.cs" />
+    <Compile Include="Costura\ENProgramacionMecanico.cs" />
+    <Compile Include="Costura\ENResponsable.cs" />
+    <Compile Include="Costura\ENSede.cs" />
+    <Compile Include="Costura\ENSubtipoMaquina.cs" />
+    <Compile Include="Costura\ENTablet.cs" />
+    <Compile Include="Costura\ENTipoDefecto.cs" />
+    <Compile Include="Costura\ENTipoMaquina.cs" />
+    <Compile Include="Costura\ENTipoMotivo.cs" />
+    <Compile Include="Costura\ENUbicacion.cs" />
+    <Compile Include="Despacho_OS\E_CDSD01.cs" />
+    <Compile Include="Despacho_OS\E_CDSD02.cs" />
+    <Compile Include="Despacho_OS\E_HojaRutacontrol.cs" />
+    <Compile Include="Despacho_OS\E_HojaRutaControlDetalle.cs" />
+    <Compile Include="Despacho_OS\E_Transportista.cs" />
+    <Compile Include="Mantenimiento\Cuerda.cs" />
+    <Compile Include="Mantenimiento\OF.cs" />
+    <Compile Include="Mantenimiento\Operario.cs" />
+    <Compile Include="Mantenimiento\Parametro.cs" />
+    <Compile Include="Mantenimiento\ParametroMaquina.cs" />
+    <Compile Include="Mantenimiento\ProcesoTenido.cs" />
+    <Compile Include="Mantenimiento\Supervisor.cs" />
+    <Compile Include="Mantenimiento\TipoCuerda.cs" />
+    <Compile Include="Mantenimiento\TipoTenido.cs" />
+    <Compile Include="Mantenimiento\TipoTenidoProceso.cs" />
+    <Compile Include="Mantenimiento\UnidadMedida.cs" />
+    <Compile Include="Menu\ENMenu.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Seguridad\ENUsuario.cs" />
+    <Compile Include="Seguridad\ROLES.cs" />
+    <Compile Include="Seguridad\ROLES_RUTAS.cs" />
+    <Compile Include="Seguridad\RUTAS.cs" />
+    <Compile Include="Seguridad\RUTAS_TIPO.cs" />
+    <Compile Include="Seguridad\SISTEMAS.cs" />
+    <Compile Include="Seguridad\USUARIO.cs" />
+    <Compile Include="Seguridad\USUARIO_ACCESO.cs" />
+    <Compile Include="Seguridad\USUARIO_ROLES.cs" />
+    <Compile Include="Tinto\ConfigParametros.cs" />
+    <Compile Include="Tinto\RegProd.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Hilados\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

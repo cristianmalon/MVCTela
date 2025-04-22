@@ -1,0 +1,70 @@
+﻿
+
+<!DOCTYPE html>
+
+<html style="height: auto!important;">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+
+    <!-- jQuery -->
+    <script src="~/Content/AdminLte/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="~/Content/AdminLte/plugins/jquery-ui/jquery-ui.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="~/Content/AdminLte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="~/Content/AdminLte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/Content/AdminLte/dist/js/adminlte.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/Content/AdminLte/dist/js/demo.js"></script>
+
+    <script src="~/Content/DevExpress/dx.all.js"></script>
+    <link href="~/Content/DevExpress/dx.generic.custom-scheme.css" rel="stylesheet" />
+    <script src="~/Content/DevExpress/dx.aspnet.data.js"></script>
+    <script src="~/Content/DevExpress/localization_dx.messages.es.js"></script>
+
+
+    <link href="~/Content/DevExpress/dx.generic.custom-scheme.css" rel="stylesheet" />
+    <script src="~/Content/plugins/moment/moment.min.js"></script>
+
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.4.0/polyfill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.1.1/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.2/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.0.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.9/jspdf.plugin.autotable.min.js"></script>*@
+    <link href="~/Content/Sweetalert/sweetalert2.css" rel="stylesheet" />
+    <script src="~/Content/Sweetalert/sweetalert2.all.min.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Scripts/js_General.js")"></script>
+
+
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>
+<style>
+    .dx-datagrid-headers {
+        color: #ffffff;
+        font-weight: 600;
+        background: #5eb7f1;
+    }
+
+    .dx-button-mode-contained {
+        background-color: #f1f3f4;
+        border-color: #e2e4e5;
+        color: #002762;
+    }
+
+    .dx-datagrid-header-panel {
+        padding: 0;
+        background-color: #002762;
+    }
+</style>

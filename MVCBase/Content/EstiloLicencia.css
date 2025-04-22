@@ -1,0 +1,19 @@
+﻿#page-wrapper {
+    padding-top: 20px;
+}
+
+.panel-title, .btn {
+    font-weight: 600;
+}
+     
+legend {
+    font-weight: 600;
+}
+
+.dhhBorder > a, .dhhBorder button {
+    margin-bottom: 5px;
+}
+
+.tab-content {
+    padding-top: 15px;
+}
