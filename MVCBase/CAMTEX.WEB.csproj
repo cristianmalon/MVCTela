@@ -286,6 +286,11 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Claims\TiposClaims.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AparienciaTelaController.cs" />
+    <Compile Include="Controllers\DetalleDisenoController.cs" />
+    <Compile Include="Controllers\DetalleLicradoController.cs" />
+    <Compile Include="Controllers\DisenoEstructuraController.cs" />
+    <Compile Include="Controllers\EstructuraTejidoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
@@ -8263,6 +8268,11 @@
     <Content Include="Views\Shared\_Layout _bkp3.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\AparienciaTela\Index.cshtml" />
+    <Content Include="Views\DetalleLicrado\Index.cshtml" />
+    <Content Include="Views\DetalleDiseno\Index.cshtml" />
+    <Content Include="Views\DisenoEstructura\Index.cshtml" />
+    <Content Include="Views\EstructuraTejido\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CAMTEX.Aplicacion.Entidades\CAMTEX.Aplicacion.Entidades.csproj">
