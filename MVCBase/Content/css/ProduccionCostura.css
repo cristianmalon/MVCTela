@@ -1,0 +1,46 @@
+﻿@keyframes color {
+    0% {
+        color: white;
+    }
+
+    25% {
+        color: #c79121;
+    }
+
+    50% {
+        color: white;
+    }
+
+    75% {
+        color: #c79121;
+    }
+
+    100% {
+        color: white;
+    }
+}
+
+
+.alertaNoMecanica {
+    text-align: center;
+    height: 30px;
+    font-weight: bold;
+    font-size: 15px;
+    background-color: #c79121;
+    animation: color 9s infinite linear;
+    color: white;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.alertaMecanica {
+    text-align: center;
+    height: 30px;
+    font-weight: bold;
+    font-size: 15px;
+    background-color: #a90329;
+    animation: color 9s infinite linear;
+    color: white;
+    padding: 5px;
+    margin-bottom: 10px;
+}

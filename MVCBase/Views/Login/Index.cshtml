@@ -1,0 +1,99 @@
+﻿@model CAMTEX.Web.Models.LoginModel
+@{
+    Layout = "~/Views/Shared/_Home.cshtml";
+}
+<script src="~/js/libs/jquery-3.2.1.min.js"></script>
+<script src="~/js/libs/jquery-ui.min.js"></script>
+<div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+    <div class="well">
+
+        <form method="post" class="smart-form client-form">
+            <header style="text-align: center;">
+                <span id="logo"> <img src="~/img/textiles-camones.svg" alt="Textiles Camones"> </span>
+                <br />
+                <span style="font-size: 22px;color: #007cbc;font-weight: bold;align-content: center;">MVC TELA</span>
+
+            </header>
+            @*
+
+        <fieldset>
+
+            <section>
+                <label class="label">Usuario</label>
+                <label class="input">
+                    <i class="icon-append fa fa-user"></i>
+                    @Html.TextBoxFor(model => model.NombreUsuario, new { @class = "form-control", id = "NombreUsuario", name = "NombreUsuario", required = "required", type = "Text", placeholder = "Usuario", autocomplete = "off", @maxlength = "15", @minlength = "3", data_valid = "num_car" })
+                    <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Ingrese su usuario</b>
+                </label>
+            </section>
+
+            <section>
+                <label class="label">Contraseña</label>
+                <label class="input">
+                    <i class="icon-append fa fa-lock"></i>
+                    @Html.TextBoxFor(model => model.Clave, new { @class = "form-control", id = "Clave", name = "Clave", required = "required", type = "password", @placeholder = "Clave", @maxlength = "100", @minlength = "3" })
+                    <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Ingrese su contraseña</b>
+                </label>
+            </section>
+
+        </fieldset>*@
+            <fieldset>
+                <section>
+                    <label class="label">Proyecto</label>
+                    <label class="input">
+                        <i class="icon-append fa fa-user"></i>
+                        @Html.DropDownListFor(model => model.IdProyecto,
+                                new List<SelectListItem>
+                                 {
+                                                   new SelectListItem{ Text= "Proyecto 01", Value = "1" },
+                                                   new SelectListItem{ Text= "Proyecto 02", Value = "2" }
+                                 }, "-- SELECCIONAR TIPO USUARIO --", new { @class = "form-control", id = "TipoUsuario" })
+                        <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Ingrese su usuario</b>
+                    </label>
+                </section>
+
+                <section>
+                    <label class="label">Email</label>
+                    <label class="input">
+                        <i class="icon-append fa fa-user"></i>
+                        @Html.TextBoxFor(model => model.NombreUsuario, new { @class = "form-control", id = "NombreUsuario", name = "NombreUsuario", required = "required", type = "text", placeholder = "Email", autocomplete = "off", @maxlength = "15", @minlength = "3", data_valid = "num_car" })
+                        <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Ingrese su usuario</b>
+                    </label>
+                </section>
+
+                <section id="divClave">
+                    <label class="label">Clave</label>
+                    <label class="input">
+                        <i class="icon-append fa fa-lock"></i>
+                        @Html.TextBoxFor(model => model.Clave, new { @class = "form-control", id = "Clave", name = "Clave", required = "required", type = "password", @placeholder = "Clave", @maxlength = "100", @minlength = "3" })
+                        <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Ingrese su contraseña</b>
+                    </label>
+                </section>
+
+            </fieldset>
+            <footer>
+                <button type="submit" class="btn btn-primary" name="button">
+                    Iniciar sesion
+                </button>
+                <div class="form-group text-center">
+                    @Html.ValidationSummary(false)
+
+                </div>
+            </footer>
+        </form>
+
+    </div>
+
+
+
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+
+
+    });
+
+</script>

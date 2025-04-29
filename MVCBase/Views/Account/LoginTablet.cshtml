@@ -1,0 +1,69 @@
+﻿@model CAMTEX.Web.Models.LoginModel
+@{
+    ViewBag.Title = "LoginTablet";
+    Layout = "~/Views/Shared/_Home.cshtml";
+}
+
+<script src="~/js/libs/jquery-3.2.1.min.js"></script>
+<div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+    <div class="well">
+
+        <form method="post" class="smart-form client-form">
+            @Html.AntiForgeryToken()
+            <header style="text-align: center;">
+                <span id="logo">
+                    <img src="~/img/textiles-camones.svg" />
+                </span>
+                <br />
+                <span style="font-size: 22px;color: #007cbc;font-weight: bold;align-content: center;">MVC TELA</span>
+
+            </header>
+
+            <fieldset>
+              
+
+
+                <section>
+                    <label class="label">Codigo Acceso</label>
+                    <label class="input">
+                        <i class="icon-append fa fa-user"></i>
+                        @Html.TextBoxFor(model => model.NombreUsuario, new { @class = "form-control", id = "NombreUsuario", name = "NombreUsuario", required = "required", type = "text", placeholder = "Codigo", autocomplete = "off", @maxlength = "50", @minlength = "3", data_valid = "num_car" })
+                        <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Ingrese su usuario</b>
+                    </label>
+                </section>
+            </fieldset>
+            <footer>
+                <button type="submit" class="btn btn-primary" name="button">
+                    Iniciar sesion
+                </button>
+                <div class="form-group text-center">
+                    @Html.ValidationSummary(false)
+
+                </div>
+            </footer>
+        </form>
+
+    </div>
+
+    @{
+        var parameter = Request.QueryString["ac"];
+        //Check parameter here and display Message
+        if (parameter == "success")
+        {
+            <div class="alert alert-success alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Se ha enviado la clave a su correo.</strong>
+            </div>
+        }
+    }
+
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+    });
+
+</script>
+
