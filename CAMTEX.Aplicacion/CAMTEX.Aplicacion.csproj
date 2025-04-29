@@ -66,6 +66,7 @@
     <Compile Include="Despacho_OS\CDSD01Aplicacion.cs" />
     <Compile Include="Despacho_OS\HojaRutaAplicacion.cs" />
     <Compile Include="Mantenimiento\CuerdaAplicacion.cs" />
+    <Compile Include="Mantenimiento\ETJB01Aplicacion.cs" />
     <Compile Include="Mantenimiento\ParametroAplicacion.cs" />
     <Compile Include="Mantenimiento\ProcesoTenidoAplicacion.cs" />
     <Compile Include="Mantenimiento\SupervisorAplicacion.cs" />

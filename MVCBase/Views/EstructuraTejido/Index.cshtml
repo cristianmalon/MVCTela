@@ -15,30 +15,32 @@
 </div>
 
 <script>
+    var storeTipo = [{ ETjSTip: 'C', ETjSTipDes: 'CIRCULAR' }, { ETjSTip: 'R', ETjSTipDes: 'RECTILIEOS' }];
+    var storeEstado = [{ ESTADO: 'A', ESTADO_DES: 'Activo' }, { ESTADO: 'I', ESTADO_DES: 'Inactivo' }]
     $(() => {
         const DxSource = new DevExpress.data.CustomStore({
-            key: 'IdTipoMaquina',
+            key: 'EtjID',
             load() {
-                return sendRequest(`/TipoMaquina/LitarTipoMaquina`);
+                return sendRequest(`/EstructuraTejido/ListarEstructuraTej_all`);
             },
             insert(values) {
-                return sendRequest(`/TipoMaquina/InsertTipoMaquina`, 'POST', JSON.stringify(values));
+                return sendRequest(`/EstructuraTejido/InsertEstructuraTej`, 'POST', JSON.stringify(values));
             },
             update(key, values) {
-                values.IdTipoMaquina = key;
-                return sendRequest(`/TipoMaquina/UpdateTipoMaquina`, 'PUT', JSON.stringify(values));
+                values.EtjID = key;
+                return sendRequest(`/EstructuraTejido/UpdateEstrucTej`, 'PUT', JSON.stringify(values));
             },
             remove(key) {
-                var values = { IdTipoMaquina: key }
+                var values = { EtjID: key }
                 //values.IdUbicacion = key;
-                return sendRequest(`/TipoMaquina/DeleteTipoMaquina`, 'DELETE', JSON.stringify(values));
+                return sendRequest(`/EstructuraTejido/DeleteEstrucTej`, 'DELETE', JSON.stringify(values));
             },
         });
         console.log(DxSource);
         const dataGrid =
         $('#gridContainer').dxDataGrid({
             dataSource: DxSource,
-            keyExpr: 'IdTipoMaquina',
+            keyExpr: 'EtjID',
             editing: {
                 mode: 'popup',
                 allowUpdating: true,
@@ -46,30 +48,52 @@
                 allowAdding: true,
                 allowDeleting: true,
                 popup: {
-                    title: 'Tipo Maquina',
+                    title: 'ESTRUCTURA DE TEJIDO',
                     showTitle: true,
                     width: 700,
-                    height: 210,
+                    height: 310,
                 },
                 form: {
                     items: [{
                         itemType: 'group',
                         colSpan: 2,
-                        items: ['TipoMaquina'],
+                        items: ['ETjDDes', 'ETjDMne','ETjSTip'],
                     }],
                 },
             },
             columns: [
-                'IdTipoMaquina',
-                'TipoMaquina',
-                'USUARIO_REG',
-                'ESTADO_DES', , {
-                    dataField: 'FECHA_REG',
-                    caption: 'Fecha Registro',
+                { dataField: 'ETJCCOD', caption: 'Codigo', },
+                { dataField: 'ETjDDes', caption: 'Nombre', },
+                { dataField: 'ETjDMne', caption: 'Abreviatura', },
+                {
+                    dataField: 'ETjSTip', caption: 'Tipo', lookup: {
+                        dataSource: storeTipo,
+                        valueExpr: 'ETjSTip',
+                        displayExpr: 'ETjSTipDes',
+                    }, },
+                {
+                    dataField: 'ESTADO', caption: 'Estado', lookup: {
+                        dataSource: storeEstado,
+                        valueExpr: 'ESTADO',
+                        displayExpr: 'ESTADO_DES',
+                    }
+                },
+                {
+                    dataField: 'FechaReg',
+                    caption: 'Fecha Creación',
                     dataType: 'datetime',
-                    alignment: 'right',
-                    format: "MM/dd/yyyy"
-                }
+                    format: "dd/MM/yyyy"
+                },
+                { dataField: 'USUARIO_REG', caption: 'Usuario Registro', },
+                { dataField: 'HOST_REG', caption: 'PC', },
+                {
+                    dataField: 'FECHA_ACT',
+                    caption: 'Fecha Modificación',
+                    dataType: 'datetime',
+                    format: "dd/MM/yyyy"
+                },
+                { dataField: 'USUARIO_ACT', caption: 'Usuario Modificación', },
+                { dataField: 'HOST_ACT', caption: 'PC edit', },
             ],
             toolbar: {
                 items: [
@@ -125,6 +149,10 @@
                 e.cancel = true;
             },
         }).dxDataGrid('instance');
+
+        console.log(dataGrid);
+        console.log(dataGrid.getDataSource());
+
     });
 
 
