@@ -68,6 +68,7 @@
     <Compile Include="Mantenimiento\CuerdaAplicacion.cs" />
     <Compile Include="Mantenimiento\ETJB01Aplicacion.cs" />
     <Compile Include="Mantenimiento\ETJB02Aplicacion.cs" />
+    <Compile Include="Mantenimiento\ETJB04Aplicacion.cs" />
     <Compile Include="Mantenimiento\ParametroAplicacion.cs" />
     <Compile Include="Mantenimiento\ProcesoTenidoAplicacion.cs" />
     <Compile Include="Mantenimiento\SupervisorAplicacion.cs" />

@@ -72,6 +72,7 @@
     <Compile Include="Mantenimiento\CuerdaRepositorio.cs" />
     <Compile Include="Mantenimiento\ETJB01Repositorio.cs" />
     <Compile Include="Mantenimiento\ETJB02Repositorio.cs" />
+    <Compile Include="Mantenimiento\ETJB04Repositorio.cs" />
     <Compile Include="Mantenimiento\OperarioRepositorio.cs" />
     <Compile Include="Mantenimiento\ParametroRepositorio.cs" />
     <Compile Include="Mantenimiento\ProcesoTenidoRepositorio.cs" />

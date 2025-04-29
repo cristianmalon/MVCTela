@@ -90,6 +90,7 @@
     <Compile Include="Mantenimiento\Cuerda.cs" />
     <Compile Include="Mantenimiento\ETJB01.cs" />
     <Compile Include="Mantenimiento\ETJB02.cs" />
+    <Compile Include="Mantenimiento\ETJB04.cs" />
     <Compile Include="Mantenimiento\OF.cs" />
     <Compile Include="Mantenimiento\Operario.cs" />
     <Compile Include="Mantenimiento\Parametro.cs" />

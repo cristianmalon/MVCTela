@@ -4,7 +4,7 @@
 }
 
 
-<div id="frmIndexROLES">
+<div id="frmAparienciaTela">
     <div class="form-horizontal">
         <div class="panel panel-default">
 
@@ -16,116 +16,155 @@
 </div>
 
 <script>
+
+    var storeEstado = [{ ESTADO: 'A', ESTADO_DES: 'Activo' }, { ESTADO: 'I', ESTADO_DES: 'Inactivo' }]
+
     $(() => {
         const DxSource = new DevExpress.data.CustomStore({
-            key: 'IdTipoMaquina',
+            key: 'ETjCTDi',
             load() {
-                return sendRequest(`/TipoMaquina/LitarTipoMaquina`);
+                return sendRequest(`/AparienciaTela/ListarApaTela_all`);
             },
             insert(values) {
-                return sendRequest(`/TipoMaquina/InsertTipoMaquina`, 'POST', JSON.stringify(values));
+                return sendRequest(`/AparienciaTela/InsertApaTela`, 'POST', JSON.stringify(values));
             },
             update(key, values) {
-                values.IdTipoMaquina = key;
-                return sendRequest(`/TipoMaquina/UpdateTipoMaquina`, 'PUT', JSON.stringify(values));
+                values.ETjCTDi = key;
+                return sendRequest(`/AparienciaTela/UpdateApaTela`, 'PUT', JSON.stringify(values));
             },
             remove(key) {
-                var values = { IdTipoMaquina: key }
+                var values = { ETjCTDi: key }
                 //values.IdUbicacion = key;
-                return sendRequest(`/TipoMaquina/DeleteTipoMaquina`, 'DELETE', JSON.stringify(values));
+                return sendRequest(`/AparienciaTela/DeleteApaTela`, 'DELETE', JSON.stringify(values));
             },
         });
         console.log(DxSource);
         const dataGrid =
-        $('#gridContainer').dxDataGrid({
-            dataSource: DxSource,
-            keyExpr: 'IdTipoMaquina',
-            editing: {
-                mode: 'popup',
-                allowUpdating: true,
-                useIcons: true,
-                allowAdding: true,
-                allowDeleting: true,
-                popup: {
-                    title: 'Tipo Maquina',
-                    showTitle: true,
-                    width: 700,
-                    height: 210,
+            $('#gridContainer').dxDataGrid({
+                dataSource: DxSource,
+                keyExpr: 'ETjCTDi',
+                editing: {
+                    mode: 'popup',
+                    allowUpdating: true,
+                    useIcons: true,
+                    allowAdding: true,
+                    allowDeleting: true,
+                    popup: {
+                        title: 'DETALLE APARIENCIA TELA',
+                        showTitle: true,
+                        width: 700,
+                        height: 310,
+                    },
+                    form: {
+                        items: [{
+                            itemType: 'group',
+                            colSpan: 2,
+                            items: ['ETjDTDi',
+                                {
+                                    dataField: 'ETjDMne',
+                                    //editorType: 'dxTextBox',
+                                    //editorOptions: {
+                                    //    maxLength: 5
+                                    //},
+                                    //validationRules: [
+                                    //    {
+                                    //        type: 'stringLength',
+                                    //        max: 5,
+                                    //        message: 'Máximo 5 caracteres.'
+                                    //    }
+                                    //]
+                                }
+                            ],
+                        }],
+                    },
                 },
-                form: {
-                    items: [{
-                        itemType: 'group',
-                        colSpan: 2,
-                        items: ['TipoMaquina'],
-                    }],
-                },
-            },
-            columns: [
-                'IdTipoMaquina',
-                'TipoMaquina',
-                'USUARIO_REG',
-                'ESTADO_DES', , {
-                    dataField: 'FECHA_REG',
-                    caption: 'Fecha Registro',
-                    dataType: 'datetime',
-                    alignment: 'right',
-                    format: "MM/dd/yyyy"
-                }
-            ],
-            toolbar: {
-                items: [
+                columns: [
+                    { dataField: 'ETjCTDi', caption: 'Codigo', },
+                    { dataField: 'ETjDTDi', caption: 'Nombre', },
+                    { dataField: 'ETjDMne', caption: 'Abreviatura', },
+
                     {
-                        location: "after",
-                        widget: "dxButton",
-                        options: {
-                            icon: "add",
-                            text: "AGREGAR",
-                            onClick: function () {
-                                dataGrid.addRow();
-                            }
-                        },
-                    }, {
-                        location: 'after',
-                        widget: 'dxButton',
-                        options: {
-                            icon: 'refresh',
-                            text: "ACTUALIZAR",
-                            onClick() {
-                                dataGrid.refresh();
+                        dataField: 'ESTADO', caption: 'Estado', lookup: {
+                            dataSource: storeEstado,
+                            valueExpr: 'ESTADO',
+                            displayExpr: 'ESTADO_DES',
+                        }
+                    },
+                    {
+                        dataField: 'FechaReg',
+                        caption: 'Fecha Creación',
+                        dataType: 'datetime',
+                        format: "dd/MM/yyyy"
+                    },
+                    { dataField: 'USUARIO_REG', caption: 'Usuario Registro', },
+                    { dataField: 'HOST_REG', caption: 'PC', },
+                    {
+                        dataField: 'FECHA_ACT',
+                        caption: 'Fecha Modificación',
+                        dataType: 'datetime',
+                        format: "dd/MM/yyyy"
+                    },
+                    { dataField: 'USUARIO_ACT', caption: 'Usuario Modificación', },
+                    { dataField: 'HOST_ACT', caption: 'PC edit', },
+                ],
+                toolbar: {
+                    items: [
+                        {
+                            location: "after",
+                            widget: "dxButton",
+                            options: {
+                                icon: "add",
+                                text: "AGREGAR",
+                                onClick: function () {
+                                    dataGrid.addRow();
+                                }
+                            },
+                        }, {
+                            location: 'after',
+                            widget: 'dxButton',
+                            options: {
+                                icon: 'refresh',
+                                text: "ACTUALIZAR",
+                                onClick() {
+                                    dataGrid.refresh();
+                                },
                             },
                         },
-                    },
-                    'exportButton',
-                ],
-            },
-            hoverStateEnabled: true,
-            filterRow: { visible: true },
-            showColumnLines: true,
-            showRowLines: true,
-            rowAlternationEnabled: true,
-            showBorders: true,
-            selection: {
-                mode: 'single',
-            },
-            export: {
-                enabled: true,
-            },
-            onExporting(e) {
-                const workbook = new ExcelJS.Workbook();
-                const worksheet = workbook.addWorksheet('data');
+                        'exportButton',
+                    ],
+                },
+                hoverStateEnabled: true,
+                filterRow: { visible: true },
+                showColumnLines: true,
+                showRowLines: true,
+                rowAlternationEnabled: true,
+                showBorders: true,
+                selection: {
+                    mode: 'single',
+                },
+                export: {
+                    enabled: true,
+                },
+                onExporting(e) {
+                    const workbook = new ExcelJS.Workbook();
+                    const worksheet = workbook.addWorksheet('data');
 
-                DevExpress.excelExporter.exportDataGrid({
-                    component: e.component,
-                    worksheet,
-                    autoFilterEnabled: true,
-                }).then(() => {
-                    workbook.xlsx.writeBuffer().then((buffer) => {
-                        saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'data.xlsx');
+                    DevExpress.excelExporter.exportDataGrid({
+                        component: e.component,
+                        worksheet,
+                        autoFilterEnabled: true,
+                    }).then(() => {
+                        workbook.xlsx.writeBuffer().then((buffer) => {
+                            saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'data.xlsx');
+                        });
                     });
-                });
-                e.cancel = true;
-            },
-        }).dxDataGrid('instance');
+                    e.cancel = true;
+                },
+            }).dxDataGrid('instance');
+
+        console.log(dataGrid);
+        console.log(dataGrid.getDataSource());
+
     });
 
 
