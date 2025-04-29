@@ -86,7 +86,9 @@
     <Compile Include="Despacho_OS\E_HojaRutacontrol.cs" />
     <Compile Include="Despacho_OS\E_HojaRutaControlDetalle.cs" />
     <Compile Include="Despacho_OS\E_Transportista.cs" />
+    <Compile Include="Mantenimiento\Class1.cs" />
     <Compile Include="Mantenimiento\Cuerda.cs" />
+    <Compile Include="Mantenimiento\ETJB01.cs" />
     <Compile Include="Mantenimiento\OF.cs" />
     <Compile Include="Mantenimiento\Operario.cs" />
     <Compile Include="Mantenimiento\Parametro.cs" />

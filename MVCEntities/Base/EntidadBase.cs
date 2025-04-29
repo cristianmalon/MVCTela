@@ -40,10 +40,10 @@ namespace CAMTEX.Entidades
         //[DataMember]
         [Display(Name = "Usuario Act.")]
         public string SUSUARIO_ACT { get; set; }
-        //[DataMember]
+        [DataMember]
         [Display(Name = "F.Actualizacion")]
         public DateTime? FECHA_ACT { get; set; }
-        //[DataMember]
+        [DataMember]
         [Display(Name = "PC Actualizacion")]
         public String HOST_ACT { get; set; }
         //[DataMember] 
