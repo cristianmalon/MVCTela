@@ -285,6 +285,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Claims\TiposClaims.cs" />
+    <Compile Include="Controllers\AcabadoFisicoController.cs" />
+    <Compile Include="Controllers\AcabadoQuimicoController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AparienciaTelaController.cs" />
     <Compile Include="Controllers\DetalleDisenoController.cs" />
@@ -8273,6 +8275,8 @@
     <Content Include="Views\DetalleDiseno\Index.cshtml" />
     <Content Include="Views\DisenoEstructura\Index.cshtml" />
     <Content Include="Views\EstructuraTejido\Index.cshtml" />
+    <Content Include="Views\AcabadoQuimico\Index.cshtml" />
+    <Content Include="Views\AcabadoFisico\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CAMTEX.Aplicacion.Entidades\CAMTEX.Aplicacion.Entidades.csproj">

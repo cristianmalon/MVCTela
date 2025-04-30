@@ -65,6 +65,8 @@
     <Compile Include="Costura\UsuarioAutorizaAplicacion.cs" />
     <Compile Include="Despacho_OS\CDSD01Aplicacion.cs" />
     <Compile Include="Despacho_OS\HojaRutaAplicacion.cs" />
+    <Compile Include="Mantenimiento\ACFB01Aplicacion.cs" />
+    <Compile Include="Mantenimiento\ACQB01Aplicacion.cs" />
     <Compile Include="Mantenimiento\CuerdaAplicacion.cs" />
     <Compile Include="Mantenimiento\ETJB01Aplicacion.cs" />
     <Compile Include="Mantenimiento\ETJB02Aplicacion.cs" />

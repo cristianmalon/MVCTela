@@ -12,8 +12,8 @@ namespace CAMTEX.Repositorio
         {
             Dictionary<string, object> retorno = new Dictionary<string, object>();
             oConn.AddParameter("@opcion", 2);
-            oConn.AddParameter("@ETjDDes", entidad.ETjDDis);
-            oConn.AddParameter("@ETjDMne", entidad.ETjDMne);
+            oConn.AddParameter("@EtjDDisNombre", entidad.ETjDDis);
+            oConn.AddParameter("@EtjDDisAbrv", entidad.ETjDMne);
             oConn.AddParameter("@Usuario", entidad.USUARIO_REG);
             oConn.AddParameter("@Maquina", entidad.HOST_REG);
             oConn.AddParameter("@EtjID", entidad.ETjCDis);
@@ -42,8 +42,8 @@ namespace CAMTEX.Repositorio
         {
             Dictionary<string, object> retorno = new Dictionary<string, object>();
             oConn.AddParameter("@opcion", 1);
-            oConn.AddParameter("@ETjDDis", entidad.ETjDDis);
-            oConn.AddParameter("@ETjDMne", entidad.ETjDMne);
+            oConn.AddParameter("@EtjDDisNombre", entidad.ETjDDis);
+            oConn.AddParameter("@EtjDDisAbrv", entidad.ETjDMne);
             oConn.AddParameter("@Usuario", entidad.USUARIO_REG);
             oConn.AddParameter("@Maquina", entidad.HOST_REG);
             DataTable dt = oConn.ExecuteDataTable("[DBO].[Usp_ETJB02]");

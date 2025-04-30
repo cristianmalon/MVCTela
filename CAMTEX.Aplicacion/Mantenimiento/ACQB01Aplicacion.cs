@@ -11,21 +11,21 @@ using System.Threading.Tasks;
 
 namespace CAMTEX.Aplicacion
 {
-    public class ETJB04Aplicacion: IGeneralAplicacion<ETJB04>
+    public class ACQB01Aplicacion: IGeneralAplicacion<ACQB01>
     {
-        private ETJB04Repositorio ETJB04Repositorio;
+        private ACQB01Repositorio ACQB01Repositorio;
 
-        public ETJB04Aplicacion(ETJB04Repositorio eTJB04Repositorio)
+        public ACQB01Aplicacion(ACQB01Repositorio aCQB01Repositorio)
         {
-            ETJB04Repositorio = eTJB04Repositorio;
+            ACQB01Repositorio = aCQB01Repositorio;
         }
 
-        public Response Actualizar(Request<ETJB04> entidad)
+        public Response Actualizar(Request<ACQB01> entidad)
         {
             Response retorno = new Response();
             try
             {
-                var resultado = ETJB04Repositorio.Actualizar(entidad.entidad);
+                var resultado = ACQB01Repositorio.Actualizar(entidad.entidad);
                 retorno.Success = true;
                 retorno.error = false;
 
@@ -38,12 +38,12 @@ namespace CAMTEX.Aplicacion
             return retorno;
         }
 
-        public Response Eliminar(Request<ETJB04> entidad)
+        public Response Eliminar(Request<ACQB01> entidad)
         {
             Response retorno = new Response();
             try
             {
-                var resultado = ETJB04Repositorio.Eliminar(entidad.entidad);
+                var resultado = ACQB01Repositorio.Eliminar(entidad.entidad);
                 retorno.Success = true;
                 retorno.error = false;
 
@@ -56,12 +56,12 @@ namespace CAMTEX.Aplicacion
             return retorno;
         }
 
-        public Response Insertar(Request<ETJB04> entidad)
+        public Response Insertar(Request<ACQB01> entidad)
         {
             Response retorno = new Response();
             try
             {
-                var resultado = ETJB04Repositorio.Insertar(entidad.entidad);
+                var resultado = ACQB01Repositorio.Insertar(entidad.entidad);
                 retorno.Success = true;
                 retorno.error = false;
 
@@ -74,35 +74,36 @@ namespace CAMTEX.Aplicacion
             return retorno;
         }
 
-        public Response<List<ETJB04>> Listar(Request<ETJB04> entidad)
+        public Response<List<ACQB01>> Listar(Request<ACQB01> entidad)
         {
             throw new NotImplementedException();
         }
 
-        public Response<List<ETJB04>> ListarPaginado(Request<ETJB04> entidad)
+        public Response<List<ACQB01>> ListarPaginado(Request<ACQB01> entidad)
         {
-            Response<List<ETJB04>> retorno = new Response<List<ETJB04>>();
+            Response<List<ACQB01>> retorno = new Response<List<ACQB01>>();
 
             try
             {
-                DataTable dt = ETJB04Repositorio.ListarPaginado(entidad.entidad);
-                List<ETJB04> lista = new List<ETJB04>();
+                DataTable dt = ACQB01Repositorio.ListarPaginado(entidad.entidad);
+                List<ACQB01> lista = new List<ACQB01>();
 
                 foreach (DataRow row in dt.Rows)
                 {
-                    lista.Add(new ETJB04()
+                    lista.Add(new ACQB01()
                     {
-                        //ETJCCOD = Util.CapturaString(row, "ETJCCOD"),
-                        ETjCTDi = Util.CapturaString(row, "EtjATId"),
-                        ETjDTDi = Util.CapturaString(row, "EtjATNombre"),
-                        ETjDMne = Util.CapturaString(row, "EtjATAbrv"),
-                        ESTADO = Util.CapturaString(row, "EtjATEst"),
-                        FechaReg = Util.CapturaDatetime(row, "EtjATFLogC2"),
-                        USUARIO_REG = Util.CapturaString(row, "EtjATULogC2"),
-                        HOST_REG = Util.CapturaString(row, "EtjATWLogC2"),
-                        FECHA_ACT = Util.CapturaDatetime(row, "EtjATFLogM2"),
-                        USUARIO_ACT = Util.CapturaString(row, "EtjATULogM2"),
-                        HOST_ACT = Util.CapturaString(row, "EtjATWLogM2"),
+                        AcqCCOD = Util.CapturaString(row, "AcqCCOD"),
+                        AcqDdes = Util.CapturaString(row, "AcqDdes"),
+                        AcqDMne = Util.CapturaString(row, "AcqDMne"),
+                        AcqSclase = Util.CapturaString(row, "AcqSclase"),
+                        AcqNewSis = Util.CapturaString(row, "AcqNewSis"),
+                        ESTADO = Util.CapturaString(row, "AcqSest"),
+                        FechaReg = Util.CapturaDatetime(row, "AcqFLog1"),
+                        USUARIO_REG = Util.CapturaString(row, "AcqULog1"),
+                        HOST_REG = Util.CapturaString(row, "AcqWLog1"),
+                        FECHA_ACT = Util.CapturaDatetime(row, "AcqFMod"),
+                        USUARIO_ACT = Util.CapturaString(row, "AcqUMod"),
+                        HOST_ACT = Util.CapturaString(row, "AcqWMod"),
 
                     });
                 }
@@ -118,4 +119,5 @@ namespace CAMTEX.Aplicacion
             return retorno;
         }
     }
+    
 }

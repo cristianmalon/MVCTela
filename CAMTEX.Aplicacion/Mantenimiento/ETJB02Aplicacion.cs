@@ -93,16 +93,16 @@ namespace CAMTEX.Aplicacion
                     lista.Add(new ETJB02()
                     {
                         //ETJCCOD = Util.CapturaString(row, "ETJCCOD"),
-                        ETjCDis = Util.CapturaString(row, "ETjCDis"),
-                        ETjDDis = Util.CapturaString(row, "ETjDDis"),
-                        ETjDMne = Util.CapturaString(row, "ETjDMne"),
-                        ESTADO = Util.CapturaString(row, "ETjSEst"),
-                        FechaReg = Util.CapturaDatetime(row, "ETjFLogC2"),
-                        USUARIO_REG = Util.CapturaString(row, "ETjULogC2"),
-                        HOST_REG = Util.CapturaString(row, "ETjWLogC2"),
-                        FECHA_ACT = Util.CapturaDatetime(row, "ETjFLogM2"),
-                        USUARIO_ACT = Util.CapturaString(row, "ETjULogM2"),
-                        HOST_ACT = Util.CapturaString(row, "ETjWLogM2"),
+                        ETjCDis = Util.CapturaString(row, "EtjDDisId"),
+                        ETjDDis = Util.CapturaString(row, "EtjDDisNombre"),
+                        ETjDMne = Util.CapturaString(row, "EtjDDisAbrv"),
+                        ESTADO = Util.CapturaString(row, "EtjDDisEst"),
+                        FechaReg = Util.CapturaDatetime(row, "EtjDDisFLogC2"),
+                        USUARIO_REG = Util.CapturaString(row, "EtjDDisULogC2"),
+                        HOST_REG = Util.CapturaString(row, "EtjDDisWLogC2"),
+                        FECHA_ACT = Util.CapturaDatetime(row, "EtjDDisFLogM2"),
+                        USUARIO_ACT = Util.CapturaString(row, "EtjDDisULogM2"),
+                        HOST_ACT = Util.CapturaString(row, "EtjDDisWLogM2"),
 
                     });
                 }

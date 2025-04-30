@@ -69,6 +69,8 @@
     <Compile Include="Costura\UsuarioAutorizaRepositorio.cs" />
     <Compile Include="Despacho_OS\CDSD01Repositorio.cs" />
     <Compile Include="Despacho_OS\HojaRutaControlRepositorio.cs" />
+    <Compile Include="Mantenimiento\ACFB01Repositorio.cs" />
+    <Compile Include="Mantenimiento\ACQB01Repositorio.cs" />
     <Compile Include="Mantenimiento\CuerdaRepositorio.cs" />
     <Compile Include="Mantenimiento\ETJB01Repositorio.cs" />
     <Compile Include="Mantenimiento\ETJB02Repositorio.cs" />
