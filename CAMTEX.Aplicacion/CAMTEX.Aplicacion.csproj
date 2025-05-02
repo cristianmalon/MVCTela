@@ -74,6 +74,7 @@
     <Compile Include="Mantenimiento\ParametroAplicacion.cs" />
     <Compile Include="Mantenimiento\ProcesoTenidoAplicacion.cs" />
     <Compile Include="Mantenimiento\SupervisorAplicacion.cs" />
+    <Compile Include="Mantenimiento\TECB01Aplicacion.cs" />
     <Compile Include="Mantenimiento\TipoTenidoAplicacion.cs" />
     <Compile Include="Mantenimiento\TipoTenidoProcesoAplicacion.cs" />
     <Compile Include="Mantenimiento\UnidadMedidaAplicacion.cs" />

@@ -295,6 +295,7 @@
     <Compile Include="Controllers\EstructuraTejidoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\TecnicaEstampadoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -8277,6 +8278,7 @@
     <Content Include="Views\EstructuraTejido\Index.cshtml" />
     <Content Include="Views\AcabadoQuimico\Index.cshtml" />
     <Content Include="Views\AcabadoFisico\Index.cshtml" />
+    <Content Include="Views\TecnicaEstampado\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CAMTEX.Aplicacion.Entidades\CAMTEX.Aplicacion.Entidades.csproj">

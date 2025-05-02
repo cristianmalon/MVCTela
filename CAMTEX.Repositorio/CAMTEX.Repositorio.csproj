@@ -79,6 +79,7 @@
     <Compile Include="Mantenimiento\ParametroRepositorio.cs" />
     <Compile Include="Mantenimiento\ProcesoTenidoRepositorio.cs" />
     <Compile Include="Mantenimiento\SupervisorRepositorio.cs" />
+    <Compile Include="Mantenimiento\TECB01Repositorio.cs" />
     <Compile Include="Mantenimiento\TipoTenidoProcesoRepositorio.cs" />
     <Compile Include="Mantenimiento\TipoTenidoRepositorio.cs" />
     <Compile Include="Mantenimiento\UnidadMedidaRepositorio.cs" />

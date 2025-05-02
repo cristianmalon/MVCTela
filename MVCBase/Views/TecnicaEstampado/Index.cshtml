@@ -1,0 +1,163 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div id="frmIndexTecnicaEst">
+    <div class="form-horizontal">
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                <div id="gridContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    var storeEstado = [{ ESTADO: 'A', ESTADO_DES: 'Activo' }, { ESTADO: 'I', ESTADO_DES: 'Inactivo' }]
+    $(() => {
+        const DxSource = new DevExpress.data.CustomStore({
+            key: 'TecCCOD',
+            load() {
+                return sendRequest(`/TecnicaEstampado/ListarTecnicaEst_all`).then(data => {
+                    // Filtrar solo los registros nuevos si lo necesitas
+                    console.log("data: ", data);
+                    const nuevos = data.filter(x => x.TecNewSis == 'S');
+
+                    // Agregar campo visual: 01, 02, 03, ...
+                    nuevos.forEach((item, index) => {
+                        item.TEcCcodVisual = (index + 1).toString().padStart(2, '0');
+                    });
+
+                    return nuevos;
+                });
+            },
+            insert(values) {
+                return sendRequest(`/TecnicaEstampado/InsertTecnicaEst`, 'POST', JSON.stringify(values));
+            },
+            update(key, values) {
+                values.TecID = key;
+                return sendRequest(`/TecnicaEstampado/UpdateTecnicaEst`, 'PUT', JSON.stringify(values));
+            },
+            remove(key) {
+                var values = { TecID: key }
+                //values.IdUbicacion = key;
+                return sendRequest(`/TecnicaEstampado/DeleteTecnicaEst`, 'DELETE', JSON.stringify(values));
+            },
+        });
+        console.log(DxSource);
+        const dataGrid =
+            $('#gridContainer').dxDataGrid({
+                dataSource: DxSource,
+                keyExpr: 'TecCCOD',
+                editing: {
+                    mode: 'popup',
+                    allowUpdating: true,
+                    useIcons: true,
+                    allowAdding: true,
+                    allowDeleting: true,
+                    popup: {
+                        title: 'MANTENIMIENTO TECNICA ESTAMPADO',
+                        showTitle: true,
+                        width: 700,
+                        height: 310,
+                    },
+                    form: {
+                        items: [{
+                            itemType: 'group',
+                            colSpan: 2,
+                            items: ['TecDdes', 'TecDMne'],
+                        }],
+                    },
+                },
+                columns: [
+                    { dataField: 'TEcCcodVisual', caption: 'Codigo', },
+                    { dataField: 'TecDdes', caption: 'Nombre', },
+                    { dataField: 'TecDMne', caption: 'Abreviatura', },
+
+                    {
+                        dataField: 'ESTADO', caption: 'Estado', lookup: {
+                            dataSource: storeEstado,
+                            valueExpr: 'ESTADO',
+                            displayExpr: 'ESTADO_DES',
+                        }
+                    },
+                    {
+                        dataField: 'FechaReg',
+                        caption: 'Fecha Creación',
+                        dataType: 'datetime',
+                        format: "dd/MM/yyyy"
+                    },
+                    { dataField: 'USUARIO_REG', caption: 'Usuario Registro', },
+                    { dataField: 'HOST_REG', caption: 'PC', },
+                    {
+                        dataField: 'FECHA_ACT',
+                        caption: 'Fecha Modificación',
+                        dataType: 'datetime',
+                        format: "dd/MM/yyyy"
+                    },
+                    { dataField: 'USUARIO_ACT', caption: 'Usuario Modificación', },
+                    { dataField: 'HOST_ACT', caption: 'PC edit', },
+                ],
+                toolbar: {
+                    items: [
+                        {
+                            location: "after",
+                            widget: "dxButton",
+                            options: {
+                                icon: "add",
+                                text: "AGREGAR",
+                                onClick: function () {
+                                    dataGrid.addRow();
+                                }
+                            },
+                        }, {
+                            location: 'after',
+                            widget: 'dxButton',
+                            options: {
+                                icon: 'refresh',
+                                text: "ACTUALIZAR",
+                                onClick() {
+                                    dataGrid.refresh();
+                                },
+                            },
+                        },
+                        'exportButton',
+                    ],
+                },
+                hoverStateEnabled: true,
+                filterRow: { visible: true },
+                showColumnLines: true,
+                showRowLines: true,
+                rowAlternationEnabled: true,
+                showBorders: true,
+                selection: {
+                    mode: 'single',
+                },
+                export: {
+                    enabled: true,
+                },
+                onExporting(e) {
+                    const workbook = new ExcelJS.Workbook();
+                    const worksheet = workbook.addWorksheet('data');
+
+                    DevExpress.excelExporter.exportDataGrid({
+                        component: e.component,
+                        worksheet,
+                        autoFilterEnabled: true,
+                    }).then(() => {
+                        workbook.xlsx.writeBuffer().then((buffer) => {
+                            saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'data.xlsx');
+                        });
+                    });
+                    e.cancel = true;
+                },
+            }).dxDataGrid('instance');
+
+        console.log(dataGrid);
+        console.log(dataGrid.getDataSource());
+
+    });</script>
