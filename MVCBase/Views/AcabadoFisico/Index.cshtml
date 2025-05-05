@@ -24,16 +24,16 @@
             key: 'AcfCCOD',
             load() {
                 return sendRequest(`/AcabadoFisico/ListarAcabadoFis_all`).then(data => {
-                    // Filtrar solo los registros nuevos si lo necesitas
+                    /*// Filtrar solo los registros nuevos si lo necesitas
                     console.log("data: ", data);
                     const nuevos = data.filter(x => x.AcfNewSis == 'S');
 
                     // Agregar campo visual: 01, 02, 03, ...
                     nuevos.forEach((item, index) => {
                         item.AcfCcodVisual = (index + 1).toString().padStart(2, '0');
-                    });
+                    });*/
 
-                    return nuevos;
+                    return data;
                 });
             },
             insert(values) {
@@ -70,12 +70,21 @@
                         items: [{
                             itemType: 'group',
                             colSpan: 2,
-                            items: ['AcfDdes', 'AcfDMne'],
+                            items: [
+                                {
+                                    dataField: 'AcfDdes',
+                                    validationRules: [{ type: 'required' }]
+                                },
+                                {
+                                    dataField: 'AcfDMne',
+                                    validationRules: [{ type: 'required' }]
+                                }
+                            ]
                         }],
                     },
                 },
                 columns: [
-                    { dataField: 'AcfCcodVisual', caption: 'Codigo', },
+                    { dataField: 'AcfCCOD', caption: 'Codigo', },
                     { dataField: 'AcfDdes', caption: 'Nombre', },
                     { dataField: 'AcfDMne', caption: 'Abreviatura', },
                                        

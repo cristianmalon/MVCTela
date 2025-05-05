@@ -58,23 +58,18 @@
                     form: {
                         items: [{
                             itemType: 'group',
-                            colSpan: 2,
-                            items: ['ETjDTDi',
+                            colSpan: 2,                            
+                            items: [
+                                {
+                                    dataField: 'ETjDTDi',
+                                    validationRules: [{ type: 'required' }]
+                                },
                                 {
                                     dataField: 'ETjDMne',
-                                    //editorType: 'dxTextBox',
-                                    //editorOptions: {
-                                    //    maxLength: 5
-                                    //},
-                                    //validationRules: [
-                                    //    {
-                                    //        type: 'stringLength',
-                                    //        max: 5,
-                                    //        message: 'Máximo 5 caracteres.'
-                                    //    }
-                                    //]
-                                }
-                            ],
+                                    validationRules: [{ type: 'required' }]
+                                },
+                                
+                            ]
                         }],
                     },
                 },

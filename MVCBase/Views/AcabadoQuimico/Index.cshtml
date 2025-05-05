@@ -24,7 +24,7 @@
             key: 'AcqCCOD',
             load() {
                 return sendRequest(`/AcabadoQuimico/ListarAcabadoQui_all`).then(data => {
-                    // Filtrar solo los registros nuevos si lo necesitas
+                    /*// Filtrar solo los registros nuevos si lo necesitas
                     console.log("data: ", data);
                     const nuevos = data.filter(x => x.AcqNewSis == 'S');
 
@@ -32,8 +32,8 @@
                     nuevos.forEach((item, index) => {
                         item.AcqCcodVisual = (index + 1).toString().padStart(2, '0');
                     });
-
-                    return nuevos;
+                    */
+                    return data;
                 });
             },
             insert(values) {
@@ -70,12 +70,25 @@
                         items: [{
                             itemType: 'group',
                             colSpan: 2,
-                            items: ['AcqDdes', 'AcqDMne', 'AcqSclase'],
+                            items: [
+                                {
+                                    dataField: 'AcqDdes',
+                                    validationRules: [{ type: 'required' }]
+                                },
+                                {
+                                    dataField: 'AcqDMne',
+                                    validationRules: [{ type: 'required' }]
+                                },
+                                {
+                                    dataField: 'AcqSclase',
+                                    validationRules: [{ type: 'required' }]
+                                }
+                            ]
                         }],
                     },
                 },
                 columns: [
-                    { dataField: 'AcqCcodVisual', caption: 'Codigo', },
+                    { dataField: 'AcqCCOD', caption: 'Codigo', },
                     { dataField: 'AcqDdes', caption: 'Nombre', },
                     { dataField: 'AcqDMne', caption: 'Abreviatura', },
                     {

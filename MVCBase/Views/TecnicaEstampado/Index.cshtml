@@ -24,15 +24,15 @@
             load() {
                 return sendRequest(`/TecnicaEstampado/ListarTecnicaEst_all`).then(data => {
                     // Filtrar solo los registros nuevos si lo necesitas
-                    console.log("data: ", data);
+                    /*console.log("data: ", data);
                     const nuevos = data.filter(x => x.TecNewSis == 'S');
 
                     // Agregar campo visual: 01, 02, 03, ...
                     nuevos.forEach((item, index) => {
                         item.TEcCcodVisual = (index + 1).toString().padStart(2, '0');
                     });
-
-                    return nuevos;
+                    */
+                    return data;
                 });
             },
             insert(values) {
@@ -70,11 +70,21 @@
                             itemType: 'group',
                             colSpan: 2,
                             items: ['TecDdes', 'TecDMne'],
+                            items: [
+                                {
+                                    dataField: 'TecDdes',
+                                    validationRules: [{ type: 'required' }]
+                                },
+                                {
+                                    dataField: 'TecDMne',
+                                    validationRules: [{ type: 'required' }]
+                                },                                
+                            ]
                         }],
                     },
                 },
                 columns: [
-                    { dataField: 'TEcCcodVisual', caption: 'Codigo', },
+                    { dataField: 'TecCCOD', caption: 'Codigo', },
                     { dataField: 'TecDdes', caption: 'Nombre', },
                     { dataField: 'TecDMne', caption: 'Abreviatura', },
 
