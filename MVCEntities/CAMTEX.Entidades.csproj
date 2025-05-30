@@ -99,6 +99,9 @@
     <Compile Include="Mantenimiento\ParametroMaquina.cs" />
     <Compile Include="Mantenimiento\ProcesoTenido.cs" />
     <Compile Include="Mantenimiento\Supervisor.cs" />
+    <Compile Include="Mantenimiento\TAcabadaEspecifica.cs" />
+    <Compile Include="Mantenimiento\TCrudaEspecifica.cs" />
+    <Compile Include="Mantenimiento\TCrudaMadre.cs" />
     <Compile Include="Mantenimiento\TECB01.cs" />
     <Compile Include="Mantenimiento\TipoCuerda.cs" />
     <Compile Include="Mantenimiento\TipoTenido.cs" />

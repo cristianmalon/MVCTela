@@ -1,0 +1,1936 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="frmMantTCTA">
+    <div class="form-horizontal">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="gridContainerTCM">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal">
+        <div class="panel">
+            <div class="panel-body">
+                <div id="gridContainerTCE">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal">
+        <div class="panel">
+            <div class="panel-body">
+                <div id="gridContainerTAE">
+                </div>
+            </div>
+        </div>  
+    </div>
+</div>
+
+
+
+<script>
+   
+    $(() => {
+        const DxSourceTCM = new DevExpress.data.CustomStore({
+            key: 'Codigo',
+            load() {
+                return sendRequest(`/TelaCrudaAcabada/ListarTCrudaMadre`);
+            },           
+        });
+
+        const dataGridTCM =
+            $('#gridContainerTCM').dxDataGrid({
+                dataSource: DxSourceTCM,
+
+                editing: {
+                    mode: 'popup',
+                    useIcons: true,
+                    popup: {
+                        onContentReady: function (e) {
+                            e.component.option('toolbarItems[0].visible', false);
+                            e.component.option('toolbarItems[1].visible', false);
+                        },
+                        showTitle: true,
+                        width: 1200,
+                        height: 895,
+                        title: 'Registrar',
+
+                    },
+                    form: {
+                        colCount: 1,
+                        items: [
+
+                        ]
+                    },
+                },
+
+
+                columnAutoWidth: true,
+
+                onSelectionChanged: onChangeTCrudaMadre,
+
+                columnResizingMode: "widget", // Permite el desplazamiento sin afectar otras columnas
+                columnAutoWidth: false, // Deshabilita la distribución automática de anchos
+                scrolling: {
+                    columnRenderingMode: "virtual",
+                    useNative: true
+                },
+                allowColumnResizing: true,
+
+
+
+                onRowInserted(e) {
+                    e.component.navigateToRow(e.key);
+                },
+                columns: [
+
+                    {
+                        dataField: "TcmCod",
+                        caption: 'Código',
+
+                    },
+
+                    {
+                        dataField: "TcmDes",
+                        caption: 'Descripcion Tela Cruda Madre',
+
+                    },
+
+                    {
+                        dataField: "TcmMne",
+                        caption: 'Descripcion Abreviada',
+
+                    },
+
+                    {
+                        dataField: "TcmDen",
+                        caption: 'Densidad',
+
+                    },
+
+                    {
+                        dataField: "TcmAncho",
+                        caption: 'Ancho',
+
+                    },
+
+                    {
+                        dataField: "TcmAlto",
+                        caption: 'Alto',
+
+                    },
+
+
+                    {
+                        dataField: "TcmLMalla",
+                        caption: 'L.Malla',
+
+                    },
+                    {
+                        dataField: "TcmCurPul",
+                        caption: 'Cursas/Pulg',
+
+                    },
+                    {
+                        dataField: "TcmColPul",
+                        caption: 'Colum/Pulg'
+                    },
+                    {
+                        dataField: "TcmTitulo",
+                        caption:'Titulo'
+                    },                
+                    {
+                        dataField: "TcmDesg",
+                        caption: 'Desaguj.',
+                        
+
+                    },                
+                    {
+                        dataField: "TcmApa",
+                        caption: 'Apariencia',
+
+                    },
+                    {
+                        dataField: 'FECHA_REG',
+                        caption: 'Fecha Creacion',
+                        dataType: 'datetime',
+                        alignment: 'left',
+                        format: "dd/MM/yyyy",
+
+                    },
+
+                    {
+                        dataField: "ESTADO_DES",
+                        caption: 'Estado',
+
+                    },                   
+
+                    {
+                        dataField: "USUARIO_REG",
+                        caption: 'Usuario Creacion',
+                    },
+
+
+                    {
+                        dataField: "TcmFicTej",
+                        caption: 'Ficha.E.Tej.',
+                    },
+
+                    {
+                        dataField: "TcmTipTej",
+                        caption: 'Tip.Tej.',
+                    },
+
+
+                ],
+
+                toolbar: {
+                    items: [
+                        {
+                            location: "before", // Ubicación antes de los botones existentes
+                            text: "Tela Cruda Madre", // Texto del título
+                            cssClass: "toolbar-title", // Clase de estilo personalizada
+
+                        },
+                       
+                        
+                        {
+                            location: "after",
+                            widget: "dxButton",
+                            options: {
+                                icon: "add",
+                                text: "AGREGAR",
+                                //onClick: handleBtnNuevoClick,
+                                stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                // Modifica el color del botón
+                                elementAttr: {
+                                    class: "ClsAgregar custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                }
+
+                            },
+                        },
+                        {
+                            location: "after",
+                            widget: "dxButton",
+                            options: {
+                                icon: "edit",
+                                text: "EDITAR",
+                                onClick: function () {
+                                    const selectedRowIndex = dataGrid.option("focusedRowIndex");
+                                    if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                        const selectedRowData = dataGrid.getSelectedRowsData()[0];
+
+                                        handleBtnEditarClick(selectedRowData);
+
+                                    } else {
+                                        // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: 'Selecciona una fila antes de editar.',
+                                            customClass: {
+                                                container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                            },
+                                        });
+                                    }
+                                },
+                                stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                elementAttr: {
+                                    class: "ClsEditar custom-button-style", // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                }
+                            },
+                        },
+                        // SEPARADOR
+                        {
+                            location: "after",
+                            template: function () {
+                                return $("<div class='toolbar-divider'></div>");
+                            }
+                        },
+                        {
+                            location: "after",
+                            widget: "dxButton",
+                            options: {
+                                icon: "copy",
+                                text: "COPIAR",
+                                onClick: function () {
+                                    const selectedRowIndex = dataGrid.option("focusedRowIndex");
+                                    if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                        const selectedRowData = dataGrid.getSelectedRowsData()[0];
+
+                                        handleBtnCopyClick(selectedRowData);
+
+                                    } else {
+                                        // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: 'Selecciona una fila antes de generar una copia.',
+                                            customClass: {
+                                                container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                            },
+                                        });
+                                    }
+                                },
+                                stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                // Modifica el color del botón
+                                elementAttr: {
+                                    class: "ClsCopy custom-button-style", // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                }
+                            },
+                        },
+
+                        {
+                            location: "after",
+                            widget: "dxButton",
+                            options: {
+                                icon: "search",
+                                text: "VER",
+                                onClick: function () {
+                                    const selectedRowIndex = dataGrid.option("focusedRowIndex");
+                                    if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                        // dataGrid.editRow(selectedRowIndex);
+
+                                        const selectedRowData = dataGrid.getSelectedRowsData()[0];
+
+                                        handleBtnVerClick(selectedRowData);
+
+
+
+                                    } else {
+                                        // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: 'Selecciona una fila antes de ver su detalle.',
+                                            customClass: {
+                                                container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                            },
+                                        });
+                                    }
+                                },
+                                stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                // Modifica el color del botón
+                                elementAttr: {
+                                    class: "ClsVer custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                }
+                            },
+                        },
+
+                        {
+                            location: "after",
+                            widget: "dxButton",
+                            options: {
+                                icon: "print",
+                                text: "IMP. FICHA",
+                                onClick: function () {
+                                    const selectedRowIndex = dataGrid.option("focusedRowIndex");
+                                    if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                        // dataGrid.editRow(selectedRowIndex);
+
+                                        const selectedRowData = dataGrid.getSelectedRowsData()[0];
+
+                                        handleBtnVerClick(selectedRowData);
+
+
+
+                                    } else {
+                                        // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: 'Selecciona una fila antes de ver su detalle.',
+                                            customClass: {
+                                                container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                            },
+                                        });
+                                    }
+                                },
+                                stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                // Modifica el color del botón
+                                elementAttr: {
+                                    class: "ClsImprimir custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                }
+                            },
+                        },
+
+                        {
+                            location: "after",
+                            widget: "dxButton",
+                            options: {
+                                icon: "tags",
+                                text: "VARIAN. T.C. ESPECIF.",
+                                onClick: function () {
+                                    const selectedRowIndex = dataGrid.option("focusedRowIndex");
+                                    if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                        const selectedRowData = dataGrid.getSelectedRowsData()[0];
+
+                                        openModalAddHEspecificoInBandeja(selectedRowData);
+
+                                    } else {
+                                        // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: 'Selecciona una fila antes de generar una Específico.',
+                                            customClass: {
+                                                container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                            },
+                                        });
+                                    }
+                                },
+                                stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                // Modifica el color del botón
+                                elementAttr: {
+                                    class: "ClsAgregarE custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                }
+
+                            },
+                        },
+
+                        {
+                            location: "after",
+                            widget: "dxButton",
+                            options: {
+                                icon: "check",
+                                text: "ACTIVAR/DESACTIVAR",
+                                onClick: function () {
+                                    const selectedRowIndex = dataGrid.option("focusedRowIndex");
+                                    if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                        const selectedRowData = dataGrid.getSelectedRowsData()[0];
+
+                                        openModalAddHEspecificoInBandeja(selectedRowData);
+
+                                    } else {
+                                        // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: 'Selecciona una fila antes de generar una Específico.',
+                                            customClass: {
+                                                container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                            },
+                                        });
+                                    }
+                                },
+                                stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                // Modifica el color del botón
+                                elementAttr: {
+                                    class: "ClsEstado custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                }
+
+                            },
+                        },
+
+
+                        {
+                            location: 'after',
+                            widget: 'dxButton',
+                            options: {
+                                icon: 'refresh',
+                                text: "ACTUALIZAR",
+                                onClick() {
+                                    dataGrid.refresh();
+                                },
+                                stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                // Modifica el color del botón
+                                elementAttr: {
+                                    class: "ClsRefresh custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                }
+                            },
+                        },
+                        'exportButton',
+                    ],
+                },
+                export: {
+                    enabled: true,
+
+                },
+
+                onExporting(e) {
+                    //e.component.beginUpdate();
+                   // e.component.columnOption('USUARIO_REG','visible', true);
+                    const workbook = new ExcelJS.Workbook();
+                    const worksheet = workbook.addWorksheet('data');
+
+                    DevExpress.excelExporter.exportDataGrid({
+                        component: e.component,
+                        worksheet,
+                        autoFilterEnabled: true,
+                    }).then(() => {
+                        workbook.xlsx.writeBuffer().then((buffer) => {
+                            saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'data.xlsx');
+                        });
+                    }).then(function () {
+                        //e.component.columnOption('USUARIO_REG', 'visible', false);
+                       // e.component.endUpdate();
+                    });
+                    e.cancel = true;
+                },
+                hoverStateEnabled: true,
+                filterRow: { visible: true },
+                showColumnLines: true,
+                showRowLines: true,
+                rowAlternationEnabled: true,
+                showBorders: true,
+                selection: {
+                    mode: 'single',
+                },
+                paging: {
+                    pageSize: 10,  // Set the number of rows per page as per your requirement
+                },
+                onContentReady: function (e) {
+                    // Verificar si no hay ninguna fila seleccionada actualmente
+                    if (e.component.getSelectedRowKeys().length === 0) {
+                        // Seleccionar la primera fila
+                        e.component.selectRowsByIndexes(0);
+                    }
+                }
+            }).dxDataGrid('instance');
+
+
+        loadTelaCrudaEspecifico('');
+        loadTelaAcabadaEspecifico('');
+
+            function onChangeTCrudaMadre() {
+
+                var selectedRowData = dataGrid.getSelectedRowsData()[0];
+
+                //console.log('call loadHiloEspecificoBandeja');
+
+                if (!selectedRowData) {
+                    //console.log("VACIO");
+                    loadTelaCrudaEspecifico('');
+                    loadTelaAcabadaEspecifico('');
+
+                } else {
+                    //console.log("estas aca");
+                    //console.log(selectedRowData.Codigo.trim());
+                    loadTelaCrudaEspecifico(selectedRowData.Codigo.trim());
+                    loadTelaAcabadaEspecifico(selectedRowData.Codigo.trim());
+                }
+            }
+
+
+
+    })
+
+
+    function loadTelaCrudaEspecifico(codigo) {
+        
+
+        $(() => {
+            
+            const DxSourceTCE = new DevExpress.data.CustomStore({
+                load: function (loadOptions) {
+                    return $.ajax({
+                        type: "POST",
+                        url: "/MantHilado/ListarHiloEspecifico",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            CodigoHilo: codigo,
+                            TipoHiladoConfigurado: "T", //$(cmbTipoHilado).val(),
+                            CodigoProcHilo: "T",
+                            CodigoTitulo: "T",
+                            Estado: "T"
+                        })
+                    }).then(response => {
+                        //console.log("Respuesta del servidor Hijo:", response);
+                        let parsedData = response.Datos ? JSON.parse(response.Datos) : [];
+                        parsedData = parsedData.map(item => {
+                            item.DescripcionLarga = item.DescripcionLarga.replace(/(\d+)\.00%/g, "$1%");
+                            return item;
+                        });
+                        //console.log("Datos parseados:", parsedData); // Ver el resultado de JSON.parse()
+
+                        return parsedData;
+                    }).catch(error => {
+                        //console.error("Error en la carga de datos:", error);
+                        return [];
+                    });
+                }
+            });
+
+            //se cambio IdMaquina por CodigoFibra del value de update y remove y el keyExpr
+            const dataGrid2 =
+                $('#gridContainerTCE').dxDataGrid({
+                    dataSource: DxSourceTCE,
+                    //keyExpr: 'CodigoFibra',
+
+                    editing: {
+                        mode: 'popup',
+                        //allowUpdating: true,
+                        useIcons: true,
+                        //allowAdding: true,
+                        //allowDeleting: true,//sirve para confirmar tu eliminacion
+                        popup: {
+                            title: 'Fibra',
+                            showTitle: true,
+                            width: 1000,
+                            height: 700,
+                        },
+
+
+                    },
+                    scrolling: {
+                        mode: "virtual", // Puedes cambiar a "virtual" si prefieres un desplazamiento virtual
+                    },
+
+                    columnAutoWidth: true,
+
+
+
+
+                    columnResizingMode: "widget", // Permite el desplazamiento sin afectar otras columnas
+                    columnAutoWidth: false, // Deshabilita la distribución automática de anchos
+                    scrolling: {
+                        columnRenderingMode: "virtual",
+                        useNative: true
+                    },
+                    allowColumnResizing: true,
+
+
+
+
+                    onRowInserted(e) {
+                        e.component.navigateToRow(e.key);
+                    },
+                    columns: [
+                        {
+                            dataField: "TceCod",
+                            caption: 'Codigo',
+
+                        },
+                        {
+                            dataField:"TceDes",
+                            caption: "Descripcion Tela Cruda Especifica",
+                        },
+                        {
+                            dataField: "TceMne",
+                            caption:'Descripcion Abreviada'
+                        },
+                        {
+                            dataField: "TceRcrud",
+                            caption: "Rapport Crudo",
+
+                        },
+                        {
+                            dataField: "TceCodR",
+                            caption:"Cod Dis. Rapport"
+
+                        },
+                        {
+                            dataField: "TceAnioRap",
+                            caption: "Año Rapp"
+
+                        },
+                        {
+                            dataField: "TceNumRap",
+                            caption: "Num Rapp"
+
+                        },
+                        {
+                            dataField: "ProcHiloAbrev",
+                            caption: "Num Rapp"
+
+                        },
+                        {
+                            dataField: "TceVRap",
+                            caption: "Ver Rap",
+
+                        },
+                        {
+                            dataField: "TceDen",
+                            caption: 'Densidad',
+                        },
+                        {
+                            dataField: "TceAncho",
+                            caption: 'Ancho',
+                        },
+                        {
+                            dataField: "TceAlto",
+                            caption: 'Alto',
+                        },
+                        {
+                            dataField: "TceLMalla",
+                            caption: 'Long Malla',
+                        },
+                        {
+                            dataField: "TceCurPul",
+                            caption: 'Cursas/Pulg',
+                        },
+                        {
+                            dataField: "TceColPul",
+                            caption: 'Columna/Pulg',
+                        },
+                        {
+                            dataField: "TceTitulo",
+                            caption: 'Titulo',
+                        },
+                        {
+                            dataField: "TceDesg",
+                            caption: 'Desag',
+                        },
+                        {
+                            dataField: "TceApa",
+                            caption: 'Apariencia',
+                        },
+
+
+                        {
+                            dataField: 'FECHA_REG',
+                            caption: 'Fecha Registro',
+                            dataType: 'datetime',
+                            alignment: 'left',
+                            format: "dd/MM/yyyy",
+
+                        },
+
+
+                        {
+                            dataField: "ESTADO_DES",
+                            caption: 'Estado',
+
+                        },
+
+                       
+
+                        {
+                            dataField: "USUARIO_REG",
+                            caption: 'Usuario Creacion',
+                        },
+                        {
+                            dataField: "TceFicha",
+                            caption: 'Ficha',
+                        },
+                        {
+                            dataField: "TceSec",
+                            caption: 'Sec',
+                        },
+                        {
+                            dataField: "TceTipTej",
+                            caption: 'Tip.Tej.',
+                        },
+                       
+                    ],
+
+
+                    toolbar: {
+                        items: [
+                            {
+                                location: "before", // Ubicación antes de los botones existentes
+                                text: "Tela Cruda Especifica", // Texto del título
+                                cssClass: "toolbar-title", // Clase de estilo personalizada
+
+                            },
+
+                            {
+                                location: "after",
+                                widget: "dxButton",
+                                options: {
+                                    icon: "edit",
+                                    text: "EDITAR",
+                                    onClick: function () {
+                                        const selectedRowIndex = dataGrid2.option("focusedRowIndex");
+                                        if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                            // dataGrid.editRow(selectedRowIndex);
+
+                                            const selectedRowData = dataGrid2.getSelectedRowsData()[0];
+
+                                            //console.log("Datos de la fila seleccionada:", selectedRowIndex);
+                                            //console.log("Datos de la fila seleccionada:", selectedRowData);
+                                            //console.log("Datos de la fila seleccionada:", selectedRowData.Apariencia);
+
+                                            openModalBandejaHEspecifico(selectedRowData, 1);
+
+
+
+                                        } else {
+                                            // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: 'Selecciona una fila antes de editar.',
+                                                customClass: {
+                                                    container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                                },
+                                            });
+                                        }
+                                    },
+                                    stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                    // Modifica el color del botón
+                                    elementAttr: {
+                                        class: "ClsEditar custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                    }
+
+                                },
+                            },
+                            // SEPARADOR
+                            {
+                                location: "after",
+                                template: function () {
+                                    return $("<div class='toolbar-divider'></div>");
+                                }
+                            },
+                            {
+                                location: "after",
+                                widget: "dxButton",
+                                options: {
+                                    icon: "copy",
+                                    text: "COPIAR",
+                                    onClick: function () {
+                                        const selectedRowIndex = dataGrid2.option("focusedRowIndex");
+                                        if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                            // dataGrid.editRow(selectedRowIndex);
+
+                                            const selectedRowData = dataGrid2.getSelectedRowsData()[0];
+
+                                            openModalBandejaHEspecifico(selectedRowData, 3);
+
+
+
+                                        } else {
+                                            // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: 'Selecciona una fila antes de generar una copia.',
+                                                customClass: {
+                                                    container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                                },
+                                            });
+                                        }
+                                    },
+                                    stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                    // Modifica el color del botón
+                                    elementAttr: {
+                                        class: "ClsCopy custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                    }
+                                },
+                            },
+
+                            {
+                                location: "after",
+                                widget: "dxButton",
+                                options: {
+                                    icon: "search",
+                                    text: "VER",
+                                    onClick: function () {
+                                        const selectedRowIndex = dataGrid2.option("focusedRowIndex");
+                                        if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                            // dataGrid.editRow(selectedRowIndex);
+
+                                            const selectedRowData = dataGrid2.getSelectedRowsData()[0];
+
+                                            openModalBandejaHEspecifico(selectedRowData,2);
+
+
+
+                                        } else {
+                                            // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: 'Selecciona una fila antes de ver su detalle.',
+                                                customClass: {
+                                                    container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                                },
+                                            });
+                                        }
+                                    },
+                                    stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                    // Modifica el color del botón
+                                    elementAttr: {
+                                        class: "ClsVer custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                    }
+                                },
+                            },
+
+
+                            {
+                                location: "after",
+                                widget: "dxButton",
+                                options: {
+                                    icon: "tags",
+                                    text: "VARIAN. T.A. ESPECIF.",
+                                    onClick: function () {
+                                        const selectedRowIndex = dataGrid.option("focusedRowIndex");
+                                        if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                            const selectedRowData = dataGrid.getSelectedRowsData()[0];
+
+                                            openModalAddHEspecificoInBandeja(selectedRowData);
+
+                                        } else {
+                                            // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: 'Selecciona una fila antes de generar una Específico.',
+                                                customClass: {
+                                                    container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                                },
+                                            });
+                                        }
+                                    },
+                                    stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                    // Modifica el color del botón
+                                    elementAttr: {
+                                        class: "ClsAgregarE custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                    }
+
+                                },
+                            },
+                            {
+                                location: "after",
+                                widget: "dxButton",
+                                options: {
+                                    icon: "print",
+                                    text: "IMP. FICHA",
+                                    onClick: function () {
+                                        const selectedRowIndex = dataGrid.option("focusedRowIndex");
+                                        if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                            // dataGrid.editRow(selectedRowIndex);
+
+                                            const selectedRowData = dataGrid.getSelectedRowsData()[0];
+
+                                            handleBtnVerClick(selectedRowData);
+
+
+
+                                        } else {
+                                            // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: 'Selecciona una fila antes de ver su detalle.',
+                                                customClass: {
+                                                    container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                                },
+                                            });
+                                        }
+                                    },
+                                    stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                    // Modifica el color del botón
+                                    elementAttr: {
+                                        class: "ClsImprimir custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                    }
+                                },
+                            },
+                            {
+                                location: "after",
+                                widget: "dxButton",
+                                options: {
+                                    icon: "add",
+                                    text: "ASIG. FICHA",
+                                    onClick: function () {
+                                        const selectedRowIndex = dataGrid.option("focusedRowIndex");
+                                        if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                            // dataGrid.editRow(selectedRowIndex);
+
+                                            const selectedRowData = dataGrid.getSelectedRowsData()[0];
+
+                                            handleBtnVerClick(selectedRowData);
+
+
+
+                                        } else {
+                                            // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: 'Selecciona una fila antes de ver su detalle.',
+                                                customClass: {
+                                                    container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                                },
+                                            });
+                                        }
+                                    },
+                                    stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                    // Modifica el color del botón
+                                    elementAttr: {
+                                        class: "ClsAgregar custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                    }
+                                },
+                            },
+                            {
+                                location: "after",
+                                widget: "dxButton",
+                                options: {
+                                    icon: "search",
+                                    text: "VER FICHA",
+                                    onClick: function () {
+                                        const selectedRowIndex = dataGrid.option("focusedRowIndex");
+                                        if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                            // dataGrid.editRow(selectedRowIndex);
+
+                                            const selectedRowData = dataGrid.getSelectedRowsData()[0];
+
+                                            handleBtnVerClick(selectedRowData);
+
+
+
+                                        } else {
+                                            // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: 'Selecciona una fila antes de ver su detalle.',
+                                                customClass: {
+                                                    container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                                },
+                                            });
+                                        }
+                                    },
+                                    stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                    // Modifica el color del botón
+                                    elementAttr: {
+                                        class: "ClsVer custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                    }
+                                },
+                            },
+
+                            {
+                                location: "after",
+                                widget: "dxButton",
+                                options: {
+                                    icon: "search",
+                                    text: "VER ESPEJO",
+                                    onClick: function () {
+                                        const selectedRowIndex = dataGrid.option("focusedRowIndex");
+                                        if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                            // dataGrid.editRow(selectedRowIndex);
+
+                                            const selectedRowData = dataGrid.getSelectedRowsData()[0];
+
+                                            handleBtnVerClick(selectedRowData);
+
+
+
+                                        } else {
+                                            // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: 'Selecciona una fila antes de ver su detalle.',
+                                                customClass: {
+                                                    container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                                },
+                                            });
+                                        }
+                                    },
+                                    stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                    // Modifica el color del botón
+                                    elementAttr: {
+                                        class: "ClsVer custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                    }
+                                },
+                            },
+
+                            {
+                                location: "after",
+                                widget: "dxButton",
+                                options: {
+                                    icon: "check",
+                                    text: "ESTADO TCE",
+                                    onClick: function () {
+                                        const selectedRowIndex = dataGrid.option("focusedRowIndex");
+                                        if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                            const selectedRowData = dataGrid.getSelectedRowsData()[0];
+
+                                            openModalAddHEspecificoInBandeja(selectedRowData);
+
+                                        } else {
+                                            // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: 'Selecciona una fila antes de generar una Específico.',
+                                                customClass: {
+                                                    container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                                },
+                                            });
+                                        }
+                                    },
+                                    stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                    // Modifica el color del botón
+                                    elementAttr: {
+                                        class: "ClsEstado custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                    }
+
+                                },
+                            },
+
+
+                            {
+                                location: "after",
+                                widget: "dxButton",
+                                options: {
+                                    icon: "check",
+                                    text: "ACTIVAR/ELIMINAR",
+                                    onClick: function () {
+                                        const selectedRowIndex = dataGrid.option("focusedRowIndex");
+                                        if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                            const selectedRowData = dataGrid.getSelectedRowsData()[0];
+
+                                            openModalAddHEspecificoInBandeja(selectedRowData);
+
+                                        } else {
+                                            // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: 'Selecciona una fila antes de generar una Específico.',
+                                                customClass: {
+                                                    container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                                },
+                                            });
+                                        }
+                                    },
+                                    stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                    // Modifica el color del botón
+                                    elementAttr: {
+                                        class: "ClsEstado custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                    }
+
+                                },
+                            },
+
+
+
+                            
+                            {
+                                location: 'after',
+                                widget: 'dxButton',
+                                options: {
+                                    icon: 'refresh',
+                                    text: "ACTUALIZAR",
+                                    onClick() {
+                                        dataGrid2.refresh();
+                                    },
+                                    stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                    // Modifica el color del botón
+                                    elementAttr: {
+                                        class: "ClsRefresh custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                    }
+                                },
+                            },
+                            'exportButton',
+                        ],
+                    },
+                    export: {
+                        enabled: true,
+
+                    },
+
+                    onExporting(e) {
+                        e.component.beginUpdate();
+                        e.component.columnOption('DescripcionCorta','visible', true);
+                        const workbook = new ExcelJS.Workbook();
+                        const worksheet = workbook.addWorksheet('data');
+
+                        DevExpress.excelExporter.exportDataGrid({
+                            component: e.component,
+                            worksheet,
+                            autoFilterEnabled: true,
+                        }).then(() => {
+                            workbook.xlsx.writeBuffer().then((buffer) => {
+                                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'data.xlsx');
+                            });
+                        }).then(function () {
+                            e.component.columnOption('DescripcionCorta', 'visible', false);
+                            e.component.endUpdate();
+                        });
+                        e.cancel = true;
+                    },
+                    hoverStateEnabled: true,
+                    filterRow: { visible: true },
+                    showColumnLines: true,
+                    showRowLines: true,
+                    rowAlternationEnabled: true,
+                    showBorders: true,
+                    selection: {
+                        mode: 'single',
+                    },
+                    paging: {
+                        pageSize: 10,  // Set the number of rows per page as per your requirement
+                    },
+                }).dxDataGrid('instance');
+
+
+
+
+        })
+
+
+
+    }
+
+
+
+
+
+    function loadTelaAcabadaEspecifico(codigo) {
+
+
+        $(() => {
+
+            const DxSourceTAE = new DevExpress.data.CustomStore({
+                load: function (loadOptions) {
+                    return $.ajax({
+                        type: "POST",
+                        url: "/MantHilado/ListarHiloEspecifico",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            CodigoHilo: codigo,
+                            TipoHiladoConfigurado: "T", //$(cmbTipoHilado).val(),
+                            CodigoProcHilo: "T",
+                            CodigoTitulo: "T",
+                            Estado: "T"
+                        })
+                    }).then(response => {
+                        //console.log("Respuesta del servidor Hijo:", response);
+                        let parsedData = response.Datos ? JSON.parse(response.Datos) : [];
+                        parsedData = parsedData.map(item => {
+                            item.DescripcionLarga = item.DescripcionLarga.replace(/(\d+)\.00%/g, "$1%");
+                            return item;
+                        });
+                        //console.log("Datos parseados:", parsedData); // Ver el resultado de JSON.parse()
+
+                        return parsedData;
+                    }).catch(error => {
+                        //console.error("Error en la carga de datos:", error);
+                        return [];
+                    });
+                }
+            });
+
+            //se cambio IdMaquina por CodigoFibra del value de update y remove y el keyExpr
+            const dataGrid2 =
+                $('#gridContainerTAE').dxDataGrid({
+                    dataSource: DxSourceTAE,
+                    //keyExpr: 'CodigoFibra',
+
+                    editing: {
+                        mode: 'popup',
+                        //allowUpdating: true,
+                        useIcons: true,
+                        //allowAdding: true,
+                        //allowDeleting: true,//sirve para confirmar tu eliminacion
+                        popup: {
+                            title: 'Fibra',
+                            showTitle: true,
+                            width: 1000,
+                            height: 700,
+                        },
+
+
+                    },
+                    scrolling: {
+                        mode: "virtual", // Puedes cambiar a "virtual" si prefieres un desplazamiento virtual
+                    },
+
+                    columnAutoWidth: true,
+
+
+
+
+                    columnResizingMode: "widget", // Permite el desplazamiento sin afectar otras columnas
+                    columnAutoWidth: false, // Deshabilita la distribución automática de anchos
+                    scrolling: {
+                        columnRenderingMode: "virtual",
+                        useNative: true
+                    },
+                    allowColumnResizing: true,
+
+
+
+
+                    onRowInserted(e) {
+                        e.component.navigateToRow(e.key);
+                    },
+                    columns: [
+                        {
+                            dataField: "TaeCod",
+                            caption: 'Codigo',
+
+                        },
+                        {
+                            dataField: "TaeDes",
+                            caption:'Descripcion de Tela Acabada Especifica'
+                        },
+                        {
+                            dataField: "TaeMne",
+                            caption: 'Descripcion Abreviada'
+
+                        },
+                        {
+                            dataField: "TaeRap",
+                            caption: 'Rapport',
+
+                        },
+                        {
+                            dataField: "TaeAnio",
+                            caption: 'Año'
+
+                        },
+                        {
+                            dataField: "TaeNroDis",
+                            caption: 'Nro Diseño'
+
+                        },
+                        {
+                            dataField: "TaeVer",
+                            caption: 'Ver'
+
+                        },
+                        {
+                            dataField: "TaeDen",
+                            caption: 'Densidad'
+
+                        },
+                        {
+                            dataField: "TaeAncho",
+                            caption: 'Ancho',
+
+                        },
+                        {
+                            dataField: "TaeAlto",
+                            caption: 'Alto',
+                        },
+                        {
+                            dataField: "TaeLCAnt",
+                            caption: 'C/Antipill.',
+                        },
+
+                        {
+                            dataField: "TaeAcaQui",
+                            caption: 'Acabado Quimico',
+                        },
+
+                        {
+                            dataField: "TaeAcaFis",
+                            caption: 'Acabado Fisico',
+                        },
+
+                        {
+                            dataField: "TaeTipoSal",
+                            caption: 'TIpo Salida',
+                        },
+                        {
+                            dataField: "TaeTecEst",
+                            caption: 'Tecnica Estampado',
+
+                        },
+                        {
+                            dataField: "TaeSentEst",
+                            caption: 'Sent. Estamp',
+                        },
+                        {
+                            dataField: "TaeApa",
+                            caption: 'Apariencia',
+                        },
+
+
+
+
+
+
+                        /*
+                        {
+                            dataField: "EstFile1",
+                            caption: 'pdf',
+                            dataType: "boolean", // Esto convierte el campo en un checkbox
+                            editorType: "dxCheckBox", // Usar un checkbox en la edición de la celda
+                            setCellValue: function (rowData, value) {
+                                // Asegurarte de que el valor se guarde como 0 o 1
+                                rowData.EstFile1 = value ? 1 : 0; // Si es true (checked), lo guardamos como 1, si no como 0
+                            },
+                            // Opcional: Se puede personalizar la visualización de la celda
+                            cellTemplate: function (container, options) {
+                                $("<div>")
+                                    .dxCheckBox({
+                                        value: options.value === 1,  // Si es 1, se marca el checkbox
+                                        onValueChanged: function (e) {
+                                            options.setValue(e.value ? 1 : 0);  // Guardamos el valor como 1 o 0
+                                        }
+                                    })
+                                    .appendTo(container);
+                            }
+                        },*/
+
+
+
+                        {
+                            dataField: "ESTADO_DES",
+                            caption: 'Estado',
+
+                        },
+
+                        {
+                            dataField: "USUARIO_REG",
+                            caption: 'Usuario Creacion',
+                        },
+
+
+                        {
+                            dataField: "TaeTipTej",
+                            caption: 'Tipo de Tejido',
+                        },
+
+
+                        {
+                            dataField: "TaeCodTCE",
+                            caption: 'Codigo TCE',
+                        },
+
+
+
+
+
+
+
+                      
+
+                    ],
+
+
+                    toolbar: {
+                        items: [
+                            {
+                                location: "before", // Ubicación antes de los botones existentes
+                                text: "Tela Acabada Especifica", // Texto del título
+                                cssClass: "toolbar-title", // Clase de estilo personalizada
+
+                            },
+
+                            {
+                                location: "after",
+                                widget: "dxButton",
+                                options: {
+                                    icon: "edit",
+                                    text: "EDITAR",
+                                    onClick: function () {
+                                        const selectedRowIndex = dataGrid2.option("focusedRowIndex");
+                                        if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                            // dataGrid.editRow(selectedRowIndex);
+
+                                            const selectedRowData = dataGrid2.getSelectedRowsData()[0];
+
+                                            //console.log("Datos de la fila seleccionada:", selectedRowIndex);
+                                            //console.log("Datos de la fila seleccionada:", selectedRowData);
+                                            //console.log("Datos de la fila seleccionada:", selectedRowData.Apariencia);
+
+                                            openModalBandejaHEspecifico(selectedRowData, 1);
+
+
+
+                                        } else {
+                                            // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: 'Selecciona una fila antes de editar.',
+                                                customClass: {
+                                                    container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                                },
+                                            });
+                                        }
+                                    },
+                                    stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                    // Modifica el color del botón
+                                    elementAttr: {
+                                        class: "ClsEditar custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                    }
+
+                                },
+                            },
+                            // SEPARADOR
+                            {
+                                location: "after",
+                                template: function () {
+                                    return $("<div class='toolbar-divider'></div>");
+                                }
+                            },
+                            {
+                                location: "after",
+                                widget: "dxButton",
+                                options: {
+                                    icon: "copy",
+                                    text: "COPIAR",
+                                    onClick: function () {
+                                        const selectedRowIndex = dataGrid2.option("focusedRowIndex");
+                                        if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                            // dataGrid.editRow(selectedRowIndex);
+
+                                            const selectedRowData = dataGrid2.getSelectedRowsData()[0];
+
+                                            openModalBandejaHEspecifico(selectedRowData, 3);
+
+
+
+                                        } else {
+                                            // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: 'Selecciona una fila antes de generar una copia.',
+                                                customClass: {
+                                                    container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                                },
+                                            });
+                                        }
+                                    },
+                                    stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                    // Modifica el color del botón
+                                    elementAttr: {
+                                        class: "ClsCopy custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                    }
+                                },
+                            },
+                            {
+                                location: "after",
+                                widget: "dxButton",
+                                options: {
+                                    icon: "search",
+                                    text: "VER",
+                                    onClick: function () {
+                                        const selectedRowIndex = dataGrid2.option("focusedRowIndex");
+                                        if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                            // dataGrid.editRow(selectedRowIndex);
+
+                                            const selectedRowData = dataGrid2.getSelectedRowsData()[0];
+
+                                            openModalBandejaHEspecifico(selectedRowData, 2);
+
+
+
+                                        } else {
+                                            // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: 'Selecciona una fila antes de ver su detalle.',
+                                                customClass: {
+                                                    container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                                },
+                                            });
+                                        }
+                                    },
+                                    stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                    // Modifica el color del botón
+                                    elementAttr: {
+                                        class: "ClsVer custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                    }
+                                },
+                            },
+
+
+                            {
+                                location: "after",
+                                widget: "dxButton",
+                                options: {
+                                    icon: "check",
+                                    text: "CAMBIAR ESTADO",
+                                    onClick: function () {
+                                        const selectedRowIndex = dataGrid.option("focusedRowIndex");
+                                        if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                            const selectedRowData = dataGrid.getSelectedRowsData()[0];
+
+                                            openModalAddHEspecificoInBandeja(selectedRowData);
+
+                                        } else {
+                                            // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: 'Selecciona una fila antes de generar una Específico.',
+                                                customClass: {
+                                                    container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                                },
+                                            });
+                                        }
+                                    },
+                                    stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                    // Modifica el color del botón
+                                    elementAttr: {
+                                        class: "ClsEstado custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                    }
+
+                                },
+                            },
+                            {
+                                location: "after",
+                                widget: "dxButton",
+                                options: {
+                                    icon: "search",
+                                    text: "VER COMPOSICION HILOS",
+                                    onClick: function () {
+                                        const selectedRowIndex = dataGrid2.option("focusedRowIndex");
+                                        if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                            // dataGrid.editRow(selectedRowIndex);
+
+                                            const selectedRowData = dataGrid2.getSelectedRowsData()[0];
+
+                                            openModalBandejaHEspecifico(selectedRowData, 2);
+
+
+
+                                        } else {
+                                            // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: 'Selecciona una fila antes de ver su detalle.',
+                                                customClass: {
+                                                    container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                                },
+                                            });
+                                        }
+                                    },
+                                    stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                    // Modifica el color del botón
+                                    elementAttr: {
+                                        class: "ClsVer custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                    }
+                                },
+                            },
+
+
+                            {
+                                location: "after",
+                                widget: "dxButton",
+                                options: {
+                                    icon: "check",
+                                    text: "ACTIVAR/ELIMINAR",
+                                    onClick: function () {
+                                        const selectedRowIndex = dataGrid.option("focusedRowIndex");
+                                        if (selectedRowIndex !== undefined && selectedRowIndex !== -1) {
+
+                                            const selectedRowData = dataGrid.getSelectedRowsData()[0];
+
+                                            openModalAddHEspecificoInBandeja(selectedRowData);
+
+                                        } else {
+                                            // Si no hay una fila seleccionada, muestra un mensaje o realiza otra acción
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: 'Selecciona una fila antes de generar una Específico.',
+                                                customClass: {
+                                                    container: 'my-swal-container', // Clase personalizada para ajustar z-index
+                                                },
+                                            });
+                                        }
+                                    },
+                                    stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                    // Modifica el color del botón
+                                    elementAttr: {
+                                        class: "ClsEstado custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                    }
+
+                                },
+                            },
+                            {
+                                location: 'after',
+                                widget: 'dxButton',
+                                options: {
+                                    icon: 'refresh',
+                                    text: "ACTUALIZAR",
+                                    onClick() {
+                                        dataGrid2.refresh();
+                                    },
+                                    stylingMode: "outlined", // Cambia el estilo del botón a outlined
+                                    // Modifica el color del botón
+                                    elementAttr: {
+                                        class: "ClsRefresh custom-button-style" // Puedes cambiar "dx-color-blue" por otro color de tu elección
+                                    }
+                                },
+                            },
+                            'exportButton',
+                        ],
+                    },
+                    export: {
+                        enabled: true,
+
+                    },
+
+                    onExporting(e) {
+                        e.component.beginUpdate();
+                        e.component.columnOption('DescripcionCorta', 'visible', true);
+                        const workbook = new ExcelJS.Workbook();
+                        const worksheet = workbook.addWorksheet('data');
+
+                        DevExpress.excelExporter.exportDataGrid({
+                            component: e.component,
+                            worksheet,
+                            autoFilterEnabled: true,
+                        }).then(() => {
+                            workbook.xlsx.writeBuffer().then((buffer) => {
+                                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'data.xlsx');
+                            });
+                        }).then(function () {
+                            e.component.columnOption('DescripcionCorta', 'visible', false);
+                            e.component.endUpdate();
+                        });
+                        e.cancel = true;
+                    },
+                    hoverStateEnabled: true,
+                    filterRow: { visible: true },
+                    showColumnLines: true,
+                    showRowLines: true,
+                    rowAlternationEnabled: true,
+                    showBorders: true,
+                    selection: {
+                        mode: 'single',
+                    },
+                    paging: {
+                        pageSize: 10,  // Set the number of rows per page as per your requirement
+                    },
+                }).dxDataGrid('instance');
+
+
+
+
+        })
+
+
+
+    }
+
+</script>
+
+
+<style>
+
+
+
+    #gridContainerTCM .dx-toolbar {
+        background-color: #002762;
+        padding: 10px 10px 5px 0px;
+    }
+    #gridContainerTCE .dx-toolbar {
+        background-color: #002762;
+        padding: 10px 10px 5px 0px;
+    }
+    #gridContainerTAE .dx-toolbar {
+        background-color: #002762;
+        padding: 10px 10px 5px 0px;
+    }
+
+    .toolbar-title {
+        color: white;
+    }
+
+    .labelCod > div {
+        background-color: #f1f3f4;
+        text-align: center;
+    }
+
+    .toolbar-title {
+        padding: 10px !important;
+    }
+
+    .labelLicrado > label {
+        content-visibility: hidden;
+    }
+
+    .labelLicrado {
+        padding-left: 0px !important;
+    }
+
+    .deshabilitado {
+        background-color: #f1f3f4;
+    }
+
+    .modal-dialog {
+        width: 80%; /* Ajusta según tus necesidades */
+        max-height: 50%;
+    }
+    /*.row > .panelHEspecificos{
+        display:none;
+    }*/
+    .bootstrap-dialog.type-primary .modal-header {
+        background-color: #002762 !important;
+    }
+
+    .close {
+        opacity: 1 !important;
+        color: white;
+    }
+
+    .my-swal-container {
+        z-index: 10000; /* Puedes ajustar este valor según sea necesario */
+    }
+
+
+    .ClsAgregar {
+        font-weight: 600 !important;
+        color: #fff;
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+    }
+
+        .ClsAgregar:hover,
+        .ClsAgregar:focus {
+            background-color: #4d984d; /* Color de fondo del botón al hacer hover o focus */
+        }
+
+
+    .ClsTHijos {
+        font-weight: 600 !important;
+        color: #fff;
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+    }
+
+        .ClsTHijos:hover,
+        .ClsTHijos:focus {
+            background-color: #4d984d; /* Color de fondo del botón al hacer hover o focus */
+        }
+
+
+
+
+    .ClsVer {
+        font-weight: 600 !important;
+        color: #fff;
+        background-color: #5bc0de;
+        border-color: #46b8da;
+    }
+
+        .ClsVer:hover,
+        .ClsVer:focus {
+            background-color: #349bb7; /* Color de fondo del botón al hacer hover o focus */
+        }
+
+    .ClsEditar {
+        font-weight: 600 !important;
+        color: #fff;
+        background-color: #f0ad4e;
+        border-color: #eea236;
+    }
+
+        .ClsEditar:hover,
+        .ClsEditar:focus {
+            background-color: #d18c37; /* Color de fondo del botón al hacer hover o focus */
+        }
+
+    .ClsRefresh {
+        font-weight: 600 !important;
+        color: #fff;
+        background-color: #337ab7;
+        border-color: #2e6da4;
+    }
+
+        .ClsRefresh:hover,
+        .ClsRefresh:focus {
+            background-color: #1c4e7e; /* Color de fondo del botón al hacer hover o focus */
+        }
+
+
+
+    .ClsCopy {
+        font-weight: 600 !important;
+        color: #fff;
+        background-color: #006400;
+        border-color: #006400;
+    }
+
+        .ClsCopy:hover,
+        .ClsCopy:focus {
+            background-color: #004d00; /* Color de fondo del botón al hacer hover o focus */
+        }
+
+
+    .ClsAgregarE {
+        font-weight: 600 !important;
+        color: #fff;
+        background-color: #d9534f;
+        border-color: #d43f3a;
+    }
+
+        .ClsAgregarE:hover,
+        .ClsAgregarE:focus {
+            background-color: #a12b27; /* Color de fondo del botón al hacer hover o focus */
+        }
+
+
+    .ClsEstado {
+        font-weight: 600 !important;
+        color: #fff;
+        background-color: #6f42c1; /* morado */
+        border-color: #5936a6;
+    }
+
+        .ClsEstado:hover,
+        .ClsEstado:focus {
+            background-color: #3b2570; /* Color de fondo del botón al hacer hover o focus */
+        }
+
+
+
+
+    .ClsImprimir {
+        font-weight: 600 !important;
+        color: #fff;
+        background-color: #0275d8;
+        border-color: #025aa5;
+    }
+
+        .ClsImprimir:hover,
+        .ClsImprimir:focus {
+            background-color: #025aa5;
+            border-color: #014c8c;
+        }
+
+
+    .custom-button-style .dx-icon {
+        color: white !important;
+    }
+
+    .custom-dx-buttonDetalle {
+        font-weight: 600 !important;
+        color: white !important;
+        background-color: #57889c !important;
+        border-color: #4e7a8c !important;
+    }
+
+
+    .toolbar-divider {
+        width: 1px;
+        height: 30px;
+        background-color: #ccc;
+        margin: 0 12px;
+    }
+
+
+</style>
+
