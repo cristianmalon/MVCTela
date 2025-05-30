@@ -29,7 +29,8 @@ namespace CAMTEX.Repositorio
 
         public DataTable ListarPaginado(TCrudaMadre entidad)
         {
-            throw new NotImplementedException();
+            DataTable dt = oConn.ExecuteDataTable("");
+            return dt;
         }
     }
 }
